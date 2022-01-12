@@ -99,6 +99,7 @@ def get_sentence_token_mapping(doc):
 from datetime import datetime
 
 # %%
+flair.device = torch.device('cuda:1')
 bert_model = TransformerWordEmbeddings(selectedBert,
                                        subtoken_pooling = "mean",
                                        layers = "all",
