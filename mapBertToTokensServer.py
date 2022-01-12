@@ -1,7 +1,3 @@
-# %%
-pip install flair
-
-# %%
 import pandas
 import numpy
 from tqdm.notebook import tqdm
