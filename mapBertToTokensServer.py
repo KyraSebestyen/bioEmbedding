@@ -1,5 +1,5 @@
 # %%
-!pip install flair
+pip install flair
 
 # %%
 import pandas
