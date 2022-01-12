@@ -36,10 +36,6 @@ selectedBert = "/disk2/ksebestyen/checkpoint-17000"
 corpus = pandas.read_csv('/disk2/ksebestyen/Okkurrenzen_Auszug.csv', sep = ';', quoting = 3) # 3 means QUOTE_NONE
 
 # %%
-with pandas.option_context('display.max_rows', 100, 'display.max_columns', 10):
-  display(corpus)
-
-# %%
 nlp = spacy.load('en_core_web_sm')
 
 # %%
