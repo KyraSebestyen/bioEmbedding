@@ -67,7 +67,7 @@ def categorize(corpusChunk):
     print(notFound)
 
 
-corpus = pandas.read_csv('Okkurrenzen Auszug.csv', sep=';', quoting=3)  # 3 means QUOTE_NONE
+corpus = pandas.read_csv('/disk2/ksebestyen/occGutDBfull.csv', sep=';', quoting=3)  # 3 means QUOTE_NONE
 corpus = corpus[corpus.text.map(len) < 1000]
 
 categorize(corpus)
