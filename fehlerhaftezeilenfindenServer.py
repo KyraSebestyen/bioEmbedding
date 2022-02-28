@@ -53,7 +53,7 @@ def categorize(corpusChunk):
     # nlpPiped = list(nlp.pipe(nonMWU.loc[:, "text"].values))
     #  print(nlpPiped)
 
-    for (index, line), doc in tqdm(zip(nonMWU.iterrows(), nlp.pipe(nonMWU.loc[:, "Sentence"].values, batch_size=100))):
+    for (index, line), doc in zip(nonMWU.iterrows(), nlp.pipe(nonMWU.loc[:, "Sentence"].values, batch_size=100)):
         jsonDoc = spacy_to_json(doc)
         found = False
         occId = line["OccId"]
