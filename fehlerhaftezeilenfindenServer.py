@@ -70,12 +70,12 @@ def categorize(corpusChunk):
 
 
 corpus = pandas.read_csv('/disk2/ksebestyen/occGutDBfull.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
-corpus = corpus[corpus.Sentence.map(len) < 1000]
+corpus = corpus[corpus.Sentence.map(lambda s: len(s + '')) < 1000]
 
 categorize(corpus)
 
 print(corpus.shape)
-corpus = corpus[corpus.Sentence.map(len) < 1000]  # 17 Sätze sind länger
+corpus = corpus[corpus.Sentence.map(lambda s: len(s + '')) < 1000]
 print(corpus.shape)
 
 valid = []
