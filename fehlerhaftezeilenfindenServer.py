@@ -1,3 +1,5 @@
+#vorher pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.2.0/en_core_web_trf-3.2.0.tar.gz --no-deps ausführen
+
 import pandas
 import numpy
 from tqdm.notebook import tqdm
@@ -68,12 +70,12 @@ def categorize(corpusChunk):
 
 
 corpus = pandas.read_csv('/disk2/ksebestyen/occGutDBfull.csv', sep=';', quoting=3)  # 3 means QUOTE_NONE
-corpus = corpus[corpus.text.map(len) < 1000]
+corpus = corpus[corpus.Sentence.map(len) < 1000]
 
 categorize(corpus)
 
 print(corpus.shape)
-corpus = corpus[corpus.text.map(len) < 1000]  # 17 Sätze sind länger
+corpus = corpus[corpus.Sentence.map(len) < 1000]  # 17 Sätze sind länger
 print(corpus.shape)
 
 valid = []
@@ -85,7 +87,7 @@ for index, line in corpus.iterrows():
     if len(occId.split(" ")) > 1 or len(occId.split("-")) > 1:
         mwu.append(line)
         continue
-    doc = list(nlp.pipe([line["text"]]))[0]
+    doc = list(nlp.pipe([line["Sentence"]]))[0]
     spacyList = spacy_to_json(doc)
     found = False
     for docJson in spacyList:
