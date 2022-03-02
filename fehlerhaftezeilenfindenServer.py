@@ -15,6 +15,8 @@ import torch
 import spacy
 import spacy_transformers
 
+from datetime import datetime
+
 nlp = spacy.load('en_core_web_trf')
 nlp.disable_pipes(["parser", "ner"])
 
@@ -48,7 +50,7 @@ def get_batches(lst, batch_size):
         yield lst[i: i + batch_size]  # gibt stückweise Elemente der Liste (1 Batch pro Iteration)
 
 
-def categorize(corpusChunk):
+def categorize(corpusChunk, chunkIndex):
     valid = []
     notFound = []
 
@@ -71,14 +73,17 @@ def categorize(corpusChunk):
         if not found:
             notFound.append(line)
 
-    pandas.DataFrame(valid).to_csv('/disk2/ksebestyen/Valid2.csv', sep=';', quoting=3)
-    pandas.DataFrame(mwu).to_csv('/disk2/ksebestyen/MWU2.csv', sep=';', quoting=3)
-    pandas.DataFrame(notFound).to_csv('/disk2/ksebestyen/NotFound2.csv', sep=';', quoting=3)
+    pandas.DataFrame(valid).to_csv('/disk2/ksebestyen/Valid' + chunkIndex + '.csv', sep=';', quoting=3)
+    pandas.DataFrame(mwu).to_csv('/disk2/ksebestyen/MWU' + chunkIndex + '.csv', sep=';', quoting=3)
+    pandas.DataFrame(notFound).to_csv('/disk2/ksebestyen/NotFound' + chunkIndex + '.csv', sep=';', quoting=3)
 
 
-corpus = pandas.read_csv('/disk2/ksebestyen/ChunkList2.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
-corpus['Sentence'] = corpus['Sentence'].astype(str)
-corpus = corpus[corpus.Sentence.map(len) < 1000]
+for index in range(3, 58):
+    chunkIndex = str(index)
+    print('Starting chunk ' + chunkIndex + ' at ' + str(datetime.now()))
+    corpus = pandas.read_csv('/disk2/ksebestyen/ChunkList' + chunkIndex + '.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
+    corpus['Sentence'] = corpus['Sentence'].astype(str)
+    corpus = corpus[corpus.Sentence.map(len) < 1000]
 
-categorize(corpus)
+    categorize(corpus, chunkIndex)
 #divideCorpus(corpus)
