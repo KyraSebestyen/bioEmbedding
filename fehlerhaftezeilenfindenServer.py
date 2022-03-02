@@ -71,12 +71,12 @@ def categorize(corpusChunk):
         if not found:
             notFound.append(line)
 
-    pandas.DataFrame(valid).to_csv('/disk2/ksebestyen/Valid1.csv', sep=';', quoting=3)
-    pandas.DataFrame(mwu).to_csv('/disk2/ksebestyen/MWU1.csv', sep=';', quoting=3)
-    pandas.DataFrame(notFound).to_csv('/disk2/ksebestyen/NotFound1.csv', sep=';', quoting=3)
+    pandas.DataFrame(valid).to_csv('/disk2/ksebestyen/Valid2.csv', sep=';', quoting=3)
+    pandas.DataFrame(mwu).to_csv('/disk2/ksebestyen/MWU2.csv', sep=';', quoting=3)
+    pandas.DataFrame(notFound).to_csv('/disk2/ksebestyen/NotFound2.csv', sep=';', quoting=3)
 
 
-corpus = pandas.read_csv('/disk2/ksebestyen/ChunkList1.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
+corpus = pandas.read_csv('/disk2/ksebestyen/ChunkList2.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
 corpus['Sentence'] = corpus['Sentence'].astype(str)
 corpus = corpus[corpus.Sentence.map(len) < 1000]
 
