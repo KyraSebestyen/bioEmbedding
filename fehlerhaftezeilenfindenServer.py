@@ -18,6 +18,12 @@ import spacy_transformers
 nlp = spacy.load('en_core_web_trf')
 nlp.disable_pipes(["parser", "ner"])
 
+def divideCorpus (corpus):
+    chunkSize = 100000
+    chunkList = [corpus[i:i + chunkSize] for i in range(0, corpus.shape[0], chunkSize)]
+    for i in range(len(chunkList)):
+        pandas.DataFrame(chunkList[i]).to_csv('/disk2/ksebestyen/ChunkList' + str(i) + '.csv', sep=';', quoting=3)
+
 
 def spacy_to_json(spacy_doc):
     doc_dict = spacy_doc.to_json()
@@ -65,40 +71,14 @@ def categorize(corpusChunk):
         if not found:
             notFound.append(line)
 
-    print(valid)
-    print(notFound)
+    pandas.DataFrame(valid).to_csv('Valid.csv', sep=';', quoting=3)
+    pandas.DataFrame(mwu).to_csv('MWU.csv', sep=';', quoting=3)
+    pandas.DataFrame(notFound).to_csv('NotFound.csv', sep=';', quoting=3)
 
 
 corpus = pandas.read_csv('/disk2/ksebestyen/occGutDBfull.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
 corpus['Sentence'] = corpus['Sentence'].astype(str)
 corpus = corpus[corpus.Sentence.map(len) < 1000]
 
-categorize(corpus)
-
-print(corpus.shape)
-corpus = corpus[corpus.Sentence.map(len) < 1000]
-print(corpus.shape)
-
-valid = []
-mwu = []
-notFound = []
-
-for index, line in corpus.iterrows():
-    occId = line["OccId"]
-    if len(occId.split(" ")) > 1 or len(occId.split("-")) > 1:
-        mwu.append(line)
-        continue
-    doc = list(nlp.pipe([line["Sentence"]]))[0]
-    spacyList = spacy_to_json(doc)
-    found = False
-    for docJson in spacyList:
-        if docJson["lemma"] == occId or occId in docJson["text"]:
-            valid.append(line)
-            found = True
-            break
-    if not found:
-        notFound.append(line)
-
-pandas.DataFrame(valid).to_csv('Valid.csv', sep=';', quoting=3)
-pandas.DataFrame(mwu).to_csv('MWU.csv', sep=';', quoting=3)
-pandas.DataFrame(notFound).to_csv('NotFound.csv', sep=';', quoting=3)
+#categorize(corpus)
+divideCorpus(corpus)
