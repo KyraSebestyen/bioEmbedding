@@ -78,7 +78,7 @@ def categorize(corpusChunk, chunkIndex):
     pandas.DataFrame(notFound).to_csv('/disk2/ksebestyen/NotFound' + chunkIndex + '.csv', sep=';', quoting=3)
 
 
-for index in range(10, 10):
+for index in range(10, 11):
     chunkIndex = str(index)
     print('Starting chunk ' + chunkIndex + ' at ' + str(datetime.now()))
     corpus = pandas.read_csv('/disk2/ksebestyen/ChunkList' + chunkIndex + '.csv', sep=';', quoting=3, dtype='str')  # 3 means QUOTE_NONE
