@@ -10,4 +10,5 @@ for filename in filenames:
 
 # Concatenate all data into one DataFrame
 validCorpus = pandas.concat(corpusChunks, ignore_index=True)
+validCorpus = validCorpus.drop(validCorpus.columns[[0, 1, 2]], axis=1)
 validCorpus.to_csv('/disk2/ksebestyen/validCorpus.csv', sep=';', quoting=3)
