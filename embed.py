@@ -54,9 +54,9 @@ out_file_metadata.write("\t".join(metadata_columns) + "\n")
 embeddings = []
 metadata = []
 count = 0
-for batch_indices in get_batches(corpus.index.to_list(), 100):  # holt sich Indizes des Batch
+for batch_indices in get_batches(corpus.index.to_list(), 25):  # holt sich Indizes des Batch
     print(count)
-    count = count + 100
+    count = count + 25
     sentences = []
     occIds = []
     docs = []
