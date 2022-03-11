@@ -44,6 +44,8 @@ bert_model = TransformerWordEmbeddings("/disk2/ksebestyen/checkpoint-17000",
                                        layers = "all",
                                        layer_mean = True,
                                        allow_long_sentences = True)
+bert_model = bert_model.to("cuda:1")
+
 out_filename_embeddings = "/disk2/ksebestyen/embeddings1.npy"
 out_file_metadata = gzip.open("/disk2/ksebestyen/token_metadata1.tsv.gz", "wt")
 
