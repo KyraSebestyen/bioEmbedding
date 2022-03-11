@@ -44,7 +44,7 @@ bert_model = TransformerWordEmbeddings("/disk2/ksebestyen/checkpoint-17000",
                                        layers = "all",
                                        layer_mean = True,
                                        allow_long_sentences = True)
-bert_model = bert_model.to("cuda:1")
+bert_model = bert_model.to("cuda:0")
 
 out_filename_embeddings = "/disk2/ksebestyen/embeddings1.npy"
 out_file_metadata = gzip.open("/disk2/ksebestyen/token_metadata1.tsv.gz", "wt")
@@ -74,9 +74,8 @@ for batch_indices in get_batches(corpus.index.to_list(), 25):  # holt sich Indiz
         docs.append(doc) # remember the spacy doc for later comparison ( OccId seems to be lemmatized?!)
 
     #bert_model.embed(sentences)
-    with torch.cuda.device(1):
-        with torch.no_grad():
-            bert_model.embed(sentences)
+    with torch.no_grad():
+        bert_model.embed(sentences)
 
     for occId, sent, doc, bi in zip(occIds, sentences, docs,batch_indices):
         found = False
