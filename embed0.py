@@ -11,7 +11,7 @@ import torch
 import spacy
 import spacy_transformers
 
-corpus = pandas.read_csv('/disk2/ksebestyen/validCorpus.csv', sep = ';', quoting = 3) # 3 means QUOTE_NONE
+corpus = pandas.read_csv('/disk2/ksebestyen/corpusGPU0.csv', sep = ';', quoting = 3) # 3 means QUOTE_NONE
 
 nlp = spacy.load('en_core_web_trf')
 
@@ -44,8 +44,8 @@ bert_model = TransformerWordEmbeddings("/disk2/ksebestyen/checkpoint-17000",
                                        layers = "all",
                                        layer_mean = True,
                                        allow_long_sentences = True)
-out_filename_embeddings = "/disk2/ksebestyen/embeddings.npy"
-out_file_metadata = gzip.open("/disk2/ksebestyen/token_metadata.tsv.gz", "wt")
+out_filename_embeddings = "/disk2/ksebestyen/embeddings0.npy"
+out_file_metadata = gzip.open("/disk2/ksebestyen/token_metadata0.tsv.gz", "wt")
 
 metadata_columns = ["token_id", "token",  "doc_token_id", "sentence_id", "text_position", "pos_penn", "pos_univ"] #lemma
 
@@ -71,7 +71,9 @@ for batch_indices in get_batches(corpus.index.to_list(), 25):  # holt sich Indiz
         occIds.append(occId) # Remember the occId for the sentence
         docs.append(doc) # remember the spacy doc for later comparison ( OccId seems to be lemmatized?!)
 
-    bert_model.embed(sentences)
+    #bert_model.embed(sentences)
+    with torch.no_grad():
+        bert_model.embed(sentences)
 
     for occId, sent, doc, bi in zip(occIds, sentences, docs,batch_indices):
         found = False
