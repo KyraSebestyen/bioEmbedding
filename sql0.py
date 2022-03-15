@@ -3,8 +3,7 @@ import gzip
 
 # Filter out some Null-entries
 
-with gzip.open("/disk2/ksebestyen/token_metadata0.tsv.gz") as f:
-    token_metadata = pandas.read_csv(f, sep = "\t", dtype = {"doi" : str})
+token_metadata = pandas.read_csv("/disk2/ksebestyen/token_metadata0.tsv", sep = "\t", dtype = {"doi" : str})
 
 token_metadata = token_metadata[~token_metadata.isna().any(axis = 1)]
 
