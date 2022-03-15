@@ -52,6 +52,7 @@ sql_ = '''CREATE TABLE embeddings (
 cursor.execute(sql_)
 
 embeddings_npy = numpy.load("/disk2/ksebestyen/embeddings0.npy")
+print("embeddings loaded")
 
 for idx in token_metadata.index:
     data = token_metadata.loc[idx, :].values.tolist()
@@ -62,6 +63,9 @@ for idx in token_metadata.index:
     sql_values = [data[0], data[1], data[1], data[2], data[3]] + [text_position_start, text_position_end] + data[5:]
     sql_ = '''INSERT INTO embeddings values (?,?,?,?,?,?,?,?,?,?)'''
     cursor.execute(sql_, tuple([*sql_values, embeddings_npy[idx, :]]))
+
+embed_db.commit()
+print("embeddings saved in database")
 
 for column in ["token_id", "token", "lemma", "sentence_id", "pos_penn", "pos_univ"]:
     sql_ = f'''CREATE INDEX {column} on embeddings ({column})'''
