@@ -9,7 +9,7 @@ import sqlite3
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db.db', detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = embed_db.cursor()
 
-dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN') limit 10").fetchall()
+dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN') limit 10000").fetchall()
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
 dataFromDBDataFrame.columns=["token_id", "embedding"]
 
