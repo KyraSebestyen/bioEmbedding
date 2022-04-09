@@ -24,7 +24,7 @@ embeddings = dataFromDBDataFrame["embedding"].tolist()
 embeddingsNumpy = numpy.array(embeddings)
 print(embeddingsNumpy)
 
-embeddingsNormalized = preprocessing.normalize(embeddingsNumpy)
+embeddingsNormalized = preprocessing.normalize(embeddingsNumpy, axis=0)
 print(embeddingsNormalized)
 
 
