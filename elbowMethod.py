@@ -3,6 +3,7 @@ import numpy
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn import datasets
+import sqlite3
 
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db.db', detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = embed_db.cursor()
