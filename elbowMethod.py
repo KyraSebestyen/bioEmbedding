@@ -3,6 +3,7 @@ import numpy
 import matplotlib.pyplot as plt
 from sklearn.cluster import KMeans
 from sklearn import datasets
+from sklearn import preprocessing  # to normalise existing X
 import sqlite3
 
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db.db', detect_types=sqlite3.PARSE_DECLTYPES)
@@ -20,17 +21,17 @@ print(dataFromDBDataFrame.head())
 embeddings = dataFromDBDataFrame["embedding"].tolist()
 print(embeddings)
 
-'''
-from sklearn import preprocessing  # to normalise existing X
-X_Norm = preprocessing.normalize(X)
 
-km2 = cluster.KMeans(n_clusters=5,init='random').fit(X_Norm)
+embeddingsNormalized = preprocessing.normalize(embeddings)
+print(embeddingsNormalized)
 
 
-distortions = []
-K = range(1,10)
-for k in K:
-    kmeanModel = KMeans(n_clusters=k)
-    kmeanModel.fit(dataFromDBDataFrame)
-    distortions.append(kmeanModel.inertia_)
-'''
+# km2 = cluster.KMeans(n_clusters=5,init='random').fit(embeddingsNormalized)
+#
+#
+# distortions = []
+# K = range(1,10)
+# for k in K:
+#     kmeanModel = KMeans(n_clusters=k)
+#     kmeanModel.fit(dataFromDBDataFrame)
+#     distortions.append(kmeanModel.inertia_)
