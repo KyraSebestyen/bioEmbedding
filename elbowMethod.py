@@ -11,10 +11,14 @@ cursor = embed_db.cursor()
 dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN') limit 10").fetchall()
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
 dataFromDBDataFrame.columns=["token_id", "embedding"]
+
 print(dataFromDBDataFrame.head())
 
 dataFromDBDataFrame["embedding"] = [numpy.frombuffer(entry) for entry in dataFromDBDataFrame["embedding"]]
 print(dataFromDBDataFrame.head())
+
+embeddings = dataFromDBDataFrame["embedding"].tolist()
+print(embeddings)
 
 '''
 from sklearn import preprocessing  # to normalise existing X
