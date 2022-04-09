@@ -28,12 +28,11 @@ embeddingsNormalized = preprocessing.normalize(embeddingsNumpy, axis=0)
 print(embeddingsNormalized)
 
 
-# km2 = cluster.KMeans(n_clusters=5,init='random').fit(embeddingsNormalized)
-#
-#
-# distortions = []
-# K = range(1,10)
-# for k in K:
-#     kmeanModel = KMeans(n_clusters=k)
-#     kmeanModel.fit(dataFromDBDataFrame)
-#     distortions.append(kmeanModel.inertia_)
+distortions = []
+K = range(1,10)
+for k in K:
+    kmeanModel = KMeans(n_clusters=k)
+    kmeanModel.fit(embeddingsNormalized)
+    distortions.append(kmeanModel.inertia_)
+
+print(distortions)
