@@ -10,9 +10,14 @@ cursor = embed_db.cursor()
 
 dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN')").fetchall()
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
-dataFromDBDataFrame.head()
+print(dataFromDBDataFrame.head())
 
-'''
+'''from sklearn import preprocessing  # to normalise existing X
+X_Norm = preprocessing.normalize(X)
+
+km2 = cluster.KMeans(n_clusters=5,init='random').fit(X_Norm)
+
+
 distortions = []
 K = range(1,10)
 for k in K:
