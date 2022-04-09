@@ -1,7 +1,6 @@
 import pandas
 import numpy
 import matplotlib.pyplot as plt
-%matplotlib inline
 from sklearn.cluster import KMeans
 from sklearn import datasets
 
