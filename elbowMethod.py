@@ -13,16 +13,18 @@ dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE po
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
 dataFromDBDataFrame.columns=["token_id", "embedding"]
 
-print(dataFromDBDataFrame.head())
+# print(dataFromDBDataFrame.head())
 
 dataFromDBDataFrame["embedding"] = [numpy.frombuffer(entry) for entry in dataFromDBDataFrame["embedding"]]
-print(dataFromDBDataFrame.head())
+# print(dataFromDBDataFrame.head())
 
 embeddings = dataFromDBDataFrame["embedding"].tolist()
-print(embeddings)
+# print(embeddings)
 
+embeddingsNumpy = numpy.array(embeddings)
+print(embeddingsNumpy)
 
-embeddingsNormalized = preprocessing.normalize(embeddings)
+embeddingsNormalized = preprocessing.normalize(embeddingsNumpy)
 print(embeddingsNormalized)
 
 
