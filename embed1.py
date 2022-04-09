@@ -62,22 +62,24 @@ for batch_indices in get_batches(corpus.index.to_list(), 25):  # holt sich Indiz
     sentences = []
     occIds = []
     docs = []
+    files = []
 
     # Collect the transformed Sentences into array and batch them together again for embedding.
-    for (occId, file), doc in zip(corpus.loc[batch_indices, ["OccId", "File"]].values, # sucht die Zeilen batch_indices und die Spalten OccId und File
-                                                   nlp.pipe(corpus.loc[batch_indices, "Sentence"].values)): # zip macht aus zwei Arrays ein Array von Tupeln
+    for (occId, fileName), doc in zip(corpus.loc[batch_indices, ["OccId", "File"]].values,  # sucht die Zeilen batch_indices und die Spalten OccId und File
+                                      nlp.pipe(corpus.loc[batch_indices, "Sentence"].values)): # zip macht aus zwei Arrays ein Array von Tupeln
         # print(doc)
         doc = spacy_to_json(doc) #  changes the doc to a list of dicts.
 
         sentences.append(Sentence([x["text"] for x in doc])) # Turns the list of spacy tokens into a flair Sentence objects
         occIds.append(occId) # Remember the occId for the sentence
         docs.append(doc) # remember the spacy doc for later comparison ( OccId seems to be lemmatized?!)
+        files.append(fileName)
 
     #bert_model.embed(sentences)
     with torch.no_grad():
         bert_model.embed(sentences)
 
-    for occId, sent, doc, bi in zip(occIds, sentences, docs,batch_indices):
+    for occId, sent, doc, bi, fileName in zip(occIds, sentences, docs, batch_indices, files):
         found = False
 
         for i, (tok, doc_tok) in enumerate(zip(sent, doc)):
@@ -91,6 +93,7 @@ for batch_indices in get_batches(corpus.index.to_list(), 25):  # holt sich Indiz
                     "text_position": (doc_tok["start"], doc_tok["end"]),
                     "pos_penn": doc_tok["tag"],
                     "pos_univ": doc_tok["pos"],
+                    "File": fileName,
                 })
                 embeddings.append(tok.embedding.detach().cpu().numpy())
                 found = True
