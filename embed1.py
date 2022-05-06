@@ -49,7 +49,7 @@ bert_model = bert_model.to("cuda:0")
 out_filename_embeddings = "/disk2/ksebestyen/embeddings1.npy"
 out_file_metadata = gzip.open("/disk2/ksebestyen/token_metadata1.tsv.gz", "wt")
 
-metadata_columns = ["token_id", "token",  "doc_token_id", "sentence_id", "text_position", "pos_penn", "pos_univ"] #lemma
+metadata_columns = ["token_id", "token",  "doc_token_id", "sentence_id", "text_position", "pos_penn", "pos_univ", "File"] #lemma
 
 out_file_metadata.write("\t".join(metadata_columns) + "\n")
 
