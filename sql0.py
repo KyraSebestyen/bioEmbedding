@@ -62,7 +62,7 @@ for idx in token_metadata.index:
             data[i] = int(data[i])
     text_position_start, text_position_end = [int(val.strip("()")) for val in data[4].split(", ")]
     sql_values = [data[0], data[1], data[1], data[2], data[3]] + [text_position_start, text_position_end] + data[5:]
-    sql_ = '''INSERT INTO embeddings values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+    sql_ = '''INSERT INTO embeddings values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
     cursor.execute(sql_, tuple([*sql_values, embeddings_npy[idx, :]]))
 
 embed_db.commit()
