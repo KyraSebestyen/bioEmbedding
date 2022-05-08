@@ -20,7 +20,6 @@ for idx in metadataCSV.index:
     data = metadataCSV.loc[idx, :].values.tolist()
     sql_ = f'''INSERT INTO metadata values ("{data[0]}", {data[1]})'''
     cursor.execute(sql_)
-    #, tuple([data[0], data[1]])
 
 embed_db.commit()
 print("embeddings saved in database")
