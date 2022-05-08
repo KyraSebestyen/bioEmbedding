@@ -29,7 +29,7 @@ embeddingsNormalized = preprocessing.normalize(embeddingsNumpy, axis=0)
 
 
 distortions = []
-K = range(21,30)
+K = range(30,40)
 for k in K:
     kmeanModel = KMeans(n_clusters=k)
     kmeanModel.fit(embeddingsNormalized)
