@@ -57,7 +57,7 @@ embeddings.extend([(term, tokenId, year) for term, tokenId, year in cursor.fetch
 # Put into data frame
 df = pandas.DataFrame.from_dict(embeddings)
 df.columns = ["term", "token_id", "year"]
-df = df.merge(e, on="token_id", how="inner")  # merge the embeddings
+df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the embeddings
 
 print(df)
 
