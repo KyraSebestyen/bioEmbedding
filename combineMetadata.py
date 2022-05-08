@@ -21,14 +21,14 @@ for idx in metadataCSV.index:
     sql_ = f'''INSERT INTO metadata values ("{data[0]}", {data[1]})'''
     cursor.execute(sql_)
     #, tuple([data[0], data[1]])
-#
-# embed_db.commit()
-# print("embeddings saved in database")
 
-# for column in ["workId", "year"]:
-#     sql_ = f'''CREATE INDEX {column} on metadata ({column})'''
-#     cursor.execute(sql_)
-#
-# embed_db.commit()
-#
-# embed_db.close()
+embed_db.commit()
+print("embeddings saved in database")
+
+for column in ["workId", "year"]:
+    sql_ = f'''CREATE INDEX {column} on metadata ({column})'''
+    cursor.execute(sql_)
+
+embed_db.commit()
+
+embed_db.close()
