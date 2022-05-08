@@ -40,7 +40,7 @@ a = cursor.execute(
 e = pandas.DataFrame(a)
 t2 = datetime.now()
 print(f"Loading Embeddings took {(t2 - t1)}")
-e.columns = ["token_id", "embedding"]
+e.columns = ["token_id", "embedding", "year"]
 # ------------------------------------------------------------------------------------------------------------------------
 
 # The max index seems to match:
