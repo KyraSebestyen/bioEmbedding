@@ -1,3 +1,4 @@
+import io
 import sqlite3
 
 from sklearn.datasets import make_blobs
@@ -9,6 +10,22 @@ import matplotlib.cm as cm
 import numpy
 from sklearn.manifold import TSNE
 
+
+def adapt_array(arr):
+    out = io.BytesIO()
+    numpy.save(out, arr)
+    out.seek(0)
+    return sqlite3.Binary(out.read())
+
+
+def convert_array(text):
+    out = io.BytesIO(text)
+    out.seek(0)
+    return numpy.load(out)
+
+
+sqlite3.register_adapter(numpy.ndarray, adapt_array)
+sqlite3.register_converter("ARRAY", convert_array)
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db.db', detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = embed_db.cursor()
 
