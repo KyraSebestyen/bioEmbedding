@@ -84,7 +84,8 @@ for n_clusters in range_n_clusters:
 
     # Compute the silhouette scores for each sample
     sample_silhouette_values = silhouette_samples(X, cluster_labels)
-    print(sample_silhouette_values)
+    silhouettesDF = pandas.DataFrame(sample_silhouette_values)
+    silhouettesDF.to_csv(f"/disk2/ksebestyen/silhouette{n_clusters}.csv")
     y_lower = 10
 
     for i in range(n_clusters):
