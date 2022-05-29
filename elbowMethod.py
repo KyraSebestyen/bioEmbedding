@@ -11,7 +11,7 @@ cursor = embed_db.cursor()
 
 dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN')").fetchall()
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
-dataFromDBDataFrame.columns=["token_id", "embedding"]
+dataFromDBDataFrame.columns = ["token_id", "embedding"]
 
 # print(dataFromDBDataFrame.head())
 

@@ -71,7 +71,7 @@ for interval in intervals:
     ranges = numpy.arange(year_min, year_max + interval, interval)  # This creates the year ranges
 
     # This cuts and groups the df in the wanted intervals per term
-    cuts = df.groupby(["term", pandas.cut(df["year"], ranges)]).apply(lambda x: numpy.stack(x["embedding"]))
+    cuts = df.groupby(["term", pandas.cut(df["year"], ranges)]).apply(lambda x: numpy.stack(x["embedding"])) # embedding in cuts ist numpy stack
 
 
     # Write an arbitrary pooling function
