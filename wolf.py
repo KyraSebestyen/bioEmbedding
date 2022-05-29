@@ -64,7 +64,7 @@ print(df)
 # Get parameters of data
 year_min = math.floor(df.year.min()/10)*10 #abrunden damit 1847 = 1840
 year_max = math.ceil(df.year.max()/10)*10
-intervals = [10]  # SET THIS
+intervals = [1000]
 
 r = []
 for interval in intervals:
