@@ -59,7 +59,7 @@ df = pandas.DataFrame.from_dict(embeddings)
 df.columns = ["term", "token_id", "year"]
 df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the embeddings
 
-print(df)
+# print(df)
 
 # Get parameters of data
 year_min = math.floor(df.year.min()/10)*10 #abrunden damit 1847 = 1840
@@ -69,6 +69,7 @@ intervals = [1000]
 r = []
 for interval in intervals:
     ranges = numpy.arange(year_min, year_max + interval, interval)  # This creates the year ranges
+    print(ranges)
 
     # This cuts and groups the df in the wanted intervals per term
     cuts = df.groupby(["term", pandas.cut(df["year"], ranges)]).apply(lambda x: numpy.stack(x["embedding"])) # embedding in cuts ist numpy stack
