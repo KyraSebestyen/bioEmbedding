@@ -79,8 +79,8 @@ for interval in intervals:
     def pool(x):
         # r = e[x].mean(0)  # Mean pooling
         # r = e[x].sum(0) # SUm pooling ...
-        # r = x.min(0)
-        r = x.mean(0)
+        r = x.max(0)
+        # r = x.mean(0)
         return r
 
 
@@ -94,4 +94,4 @@ for interval in intervals:
     r.append(result)
 
     ## WRITE RESULT
-    result.reset_index().to_csv("/disk2/ksebestyen/wolf_mean_pool.csv")
+    result.reset_index().to_csv("/disk2/ksebestyen/wolf_max_pool.csv")
