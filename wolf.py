@@ -77,10 +77,10 @@ for interval in intervals:
 
     # Write an arbitrary pooling function
     def pool(x):
-        # r = e[x].mean(0)  # Mean pooling
-        # r = e[x].sum(0) # SUm pooling ...
-        r = x.max(0)
-        # r = x.mean(0)
+        # r = e[x].mean(0) # Fehler
+        # r = x.mean(0) # Fehler
+        # r = x.max(0) # funktioniert
+        # r = x.min(0) # funktioniert
         return r
 
 
