@@ -93,4 +93,4 @@ for interval in intervals:
     r.append(result)
 
     ## WRITE RESULT
-    result.reset_index().to_csv("/disk2/ksebestyen/wolf_max_pool.csv")
+    result.reset_index().to_csv(f"/disk2/ksebestyen/wolf_mean_pool{interval}.csv")
