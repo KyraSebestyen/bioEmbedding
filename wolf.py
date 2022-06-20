@@ -62,9 +62,8 @@ df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the e
 # print(df)
 
 # Get parameters of data
-year_min = math.floor(df.year.min()/10)*10 #abrunden damit 1847 = 1840
-year_max = math.ceil(df.year.max()/10)*10
-intervals = [1000]
+year_min, year_max = df.year.min(), df.year.max()
+intervals = [1] # 10 für 1 Vektor pro Dekade
 
 r = []
 for interval in intervals:
@@ -78,7 +77,7 @@ for interval in intervals:
     # Write an arbitrary pooling function
     def pool(x):
         # r = e[x].mean(0) # Fehler
-        # r = x.mean(0) # Fehler
+        r = x.mean(0) # Fehler??! Hab doch Datei gefunden - ist die korrekt?
         # r = x.max(0) # funktioniert
         # r = x.min(0) # funktioniert
         return r
