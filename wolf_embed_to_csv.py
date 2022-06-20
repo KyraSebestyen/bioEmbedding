@@ -32,7 +32,7 @@ cursor = embed_db.cursor()
 embeddings = []
 # Get all ids with resepect to terms/years
 cursor.execute(f'SELECT LOWER(lemma), token_id,year, embedding FROM embeddings INNER JOIN metadata ON embeddings.File = metadata.workId WHERE LOWER(lemma) = "wolf"')
-embeddings.extend([(term, tokenId, year) for term, tokenId, year in cursor.fetchall()])
+embeddings.extend([(term, tokenId, year, embedding) for term, tokenId, year, embedding in cursor.fetchall()])
 
 df = pandas.DataFrame.from_dict(embeddings)
 df.columns = ["term", "token_id", "year", "embedding"]
