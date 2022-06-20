@@ -63,7 +63,7 @@ df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the e
 
 # Get parameters of data
 year_min, year_max = df.year.min(), df.year.max()
-intervals = [1] # 10 für 1 Vektor pro Dekade
+intervals = [1]
 
 r = []
 for interval in intervals:

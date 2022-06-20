@@ -29,7 +29,7 @@ sqlite3.register_converter("ARRAY", convert_array)
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db.db', detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = embed_db.cursor()
 
-dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN') LIMIT 100000").fetchall()
+dataFromDB = cursor.execute("SELECT token_id, embedding FROM embeddings WHERE pos_univ IN ('ADJ', 'NOUN', 'PROPN') LIMIT 100000").fetchall() # LIMIT wegnehmen!
 dataFromDBDataFrame = pandas.DataFrame(dataFromDB)
 dataFromDBDataFrame.columns = ["token_id", "embedding"]
 X = numpy.array([value for value in dataFromDBDataFrame["embedding"].values])
