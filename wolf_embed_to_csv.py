@@ -36,6 +36,6 @@ a = cursor.execute(f'SELECT LOWER(lemma), token_id,year, embedding FROM embeddin
 
 df = pandas.DataFrame(a)
 df.columns = ["term", "token_id", "year", "embedding"]
-df.to_csv("/disk2/ksebestyen/wolf_embeddings.csv")
+df.reset_index().to_csv("/disk2/ksebestyen/wolf_embeddings.csv")
 
 embed_db.close()
