@@ -29,13 +29,37 @@ sqlite3.register_converter("ARRAY", convert_array)
 embed_db = sqlite3.connect('/disk2/ksebestyen/embed_db_with_file.db', detect_types=sqlite3.PARSE_DECLTYPES)
 cursor = embed_db.cursor()
 
+# ________________________________________________________________________________________________________________________
+# Loading the embeddings from database
+# This will take some time because of the array conversion to stream and then numpy.
+from datetime import datetime
+
+t1 = datetime.now()
+a = cursor.execute(
+    "SELECT token_id, embedding, year FROM embeddings INNER JOIN metadata ON embeddings.File = metadata.workId WHERE LOWER(lemma) = 'wolf'").fetchall()
+e = pandas.DataFrame(a)
+t2 = datetime.now()
+print(f"Loading Embeddings took {(t2 - t1)}")
+e.columns = ["token_id", "embedding", "year"]
+# ------------------------------------------------------------------------------------------------------------------------
+
+# The max index seems to match:
+print(e.shape, cursor.execute("SELECT MAX(token_id) year FROM embeddings").fetchall())
+print(e.shape, cursor.execute("SELECT MIN(token_id) year FROM embeddings").fetchall())
 embeddings = []
 # Get all ids with resepect to terms/years
-a = cursor.execute(f'SELECT LOWER(lemma), token_id,year, embedding FROM embeddings INNER JOIN metadata ON embeddings.File = metadata.workId WHERE LOWER(lemma) = "wolf"').fetchall()
-#embeddings.extend([(term, tokenId, year, embedding) for term, tokenId, year, embedding in cursor.fetchall()])
+cursor.execute(f'SELECT LOWER(lemma), token_id,year FROM embeddings INNER JOIN metadata ON embeddings.File = metadata.workId WHERE LOWER(lemma) = "wolf"')
+embeddings.extend([(term, tokenId, year) for term, tokenId, year in cursor.fetchall()])
 
-df = pandas.DataFrame(a)
-df.columns = ["term", "token_id", "year", "embedding"]
+####
+# Aggregation
+
+# Put into data frame
+df = pandas.DataFrame.from_dict(embeddings)
+df.columns = ["term", "token_id", "year"]
+df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the embeddings
+
+
+## WRITE RESULT
 df.reset_index().to_csv("/disk2/ksebestyen/wolf_embeddings.csv")
 
-embed_db.close()
