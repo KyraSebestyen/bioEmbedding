@@ -58,39 +58,39 @@ embeddings.extend([(term, tokenId, year) for term, tokenId, year in cursor.fetch
 df = pandas.DataFrame.from_dict(embeddings)
 df.columns = ["term", "token_id", "year"]
 df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the embeddings
-
+df.reset_index().to_csv("/disk2/ksebestyen/embeddings_wolf_all.csv")
 # print(df)
 
 # Get parameters of data
-year_min, year_max = df.year.min(), df.year.max()
-intervals = [1]
-
-r = []
-for interval in intervals:
-    ranges = numpy.arange(year_min, year_max + interval, interval)  # This creates the year ranges
-    print(ranges)
-
-    # This cuts and groups the df in the wanted intervals per term
-    cuts = df.groupby(["term", pandas.cut(df["year"], ranges)]).apply(lambda x: numpy.stack(x["embedding"])) # embedding in cuts ist numpy stack
-
-
-    # Write an arbitrary pooling function
-    def pool(x):
-        # r = e[x].mean(0) # Fehler
-        r = x.mean(0) # Fehler??! Hab doch Datei gefunden - ist die korrekt?
-        # r = x.max(0) # funktioniert
-        # r = x.min(0) # funktioniert
-        return r
-
-
-    cuts.map(pool)
-
-    result = pandas.concat([cuts.map(pool), df.groupby(["term", pandas.cut(df["year"], ranges)]).agg("count")["year"]],
-                           axis=1)
-    result.columns = ["embedding", "count"]
-    result = result[~result["embedding"].isna()]  # Remove rows where terms do not occurr in the time cut
-    result["embedding"] = result["embedding"].map(list)
-    r.append(result)
-
-    ## WRITE RESULT
-    result.reset_index().to_csv(f"/disk2/ksebestyen/wolf_mean_pool{interval}.csv")
+# year_min, year_max = df.year.min(), df.year.max()
+# intervals = [1]
+#
+# r = []
+# for interval in intervals:
+#     ranges = numpy.arange(year_min, year_max + interval, interval)  # This creates the year ranges
+#     print(ranges)
+#
+#     # This cuts and groups the df in the wanted intervals per term
+#     cuts = df.groupby(["term", pandas.cut(df["year"], ranges)]).apply(lambda x: numpy.stack(x["embedding"])) # embedding in cuts ist numpy stack
+#
+#
+#     # Write an arbitrary pooling function
+#     def pool(x):
+#         # r = e[x].mean(0) # Fehler
+#         r = x.mean(0) # Fehler??! Hab doch Datei gefunden - ist die korrekt?
+#         # r = x.max(0) # funktioniert
+#         # r = x.min(0) # funktioniert
+#         return r
+#
+#
+#     cuts.map(pool)
+#
+#     result = pandas.concat([cuts.map(pool), df.groupby(["term", pandas.cut(df["year"], ranges)]).agg("count")["year"]],
+#                            axis=1)
+#     result.columns = ["embedding", "count"]
+#     result = result[~result["embedding"].isna()]  # Remove rows where terms do not occurr in the time cut
+#     result["embedding"] = result["embedding"].map(list)
+#     r.append(result)
+#
+#     ## WRITE RESULT
+#     result.reset_index().to_csv(f"/disk2/ksebestyen/wolf_mean_pool{interval}.csv")
