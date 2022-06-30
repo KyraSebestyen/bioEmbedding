@@ -58,7 +58,7 @@ embeddings.extend([(term, tokenId, year) for term, tokenId, year in cursor.fetch
 df = pandas.DataFrame.from_dict(embeddings)
 df.columns = ["term", "token_id", "year"]
 df = df.merge(e, on="token_id", how="inner", suffixes=["", "_y"])  # merge the embeddings
-df.reset_index().to_csv("/disk2/ksebestyen/embeddings_wolf_all.csv")
+df.reset_index().to_pickle("/disk2/ksebestyen/embeddings_wolf_all.pkl")
 # print(df)
 
 # Get parameters of data
